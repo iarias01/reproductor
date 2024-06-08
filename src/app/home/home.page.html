@@ -117,7 +117,7 @@
       </div>
 
       <ion-item>
-        <ion-label>Speed</ion-label>
+        <ion-label>Velocidad</ion-label>
         <ion-range
           min="0.5"
           max="2"
@@ -130,9 +130,10 @@
         </ion-range>
       </ion-item>
       <ion-item>
-        <ion-label>Select Speed</ion-label>
+        <ion-label>Velocidad</ion-label>
         <ion-select
           [(ngModel)]="playbackRate"
+          interface="action-sheet"
           (ionChange)="updatePlaybackRate()"
         >
           <ion-select-option [value]="0.70">0.70x</ion-select-option>
@@ -151,7 +152,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label>Volume</ion-label>
+        <ion-label>Volumen</ion-label>
         <ion-range
           min="0"
           max="1"
