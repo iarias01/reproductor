@@ -1,12 +1,106 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  @ViewChild('audioPlayer') audioPlayerRef!: ElementRef<HTMLAudioElement>;
 
-  constructor() {}
+  files: { name: string; url: string }[] = [];
+  selectedFile: { name: string; url: string } | null = null;
+  audioURL: string | null = null;
+  playbackRate: number = 1;
+  currentTime: number = 0;
+  duration: number = 0;
+  volume: number = 1;
 
+  constructor() {
+    const storedVolume = localStorage.getItem('volume');
+    this.volume = storedVolume ? parseFloat(storedVolume) : 1;
+  }
+
+  ngOnInit() {
+    this.loadFilesFromLocalStorage();
+  }
+
+  loadFilesFromLocalStorage() {
+    const storedFiles = JSON.parse(localStorage.getItem('files') || '[]');
+    this.files = storedFiles;
+  }
+
+  saveFilesToLocalStorage() {
+    localStorage.setItem('files', JSON.stringify(this.files));
+  }
+
+  handleFileUpload(event: any) {
+    const newFiles: File[] = Array.from(event.target.files);
+    newFiles.forEach((file) => {
+      const fileURL = URL.createObjectURL(file);
+      this.files.push({ name: file.name, url: fileURL });
+    });
+    this.saveFilesToLocalStorage();
+  }
+
+  selectFile(file: { name: string; url: string }) {
+    this.selectedFile = file;
+    this.audioURL = file.url;
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      this.audioPlayerRef.nativeElement.src = this.audioURL;
+      this.audioPlayerRef.nativeElement.load();
+    } else {
+      console.error('Audio player element not found');
+    }
+  }
+
+  play() {
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      this.audioPlayerRef.nativeElement.play();
+    }
+  }
+
+  pause() {
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      this.audioPlayerRef.nativeElement.pause();
+    }
+  }
+
+  rewind() {
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      this.audioPlayerRef.nativeElement.currentTime -= 10;
+    }
+  }
+
+  forward() {
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      this.audioPlayerRef.nativeElement.currentTime += 10;
+    }
+  }
+
+  updatePlaybackRate() {
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      this.audioPlayerRef.nativeElement.playbackRate = this.playbackRate;
+    }
+  }
+
+  updateTime() {
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      this.currentTime = this.audioPlayerRef.nativeElement.currentTime;
+      this.duration = this.audioPlayerRef.nativeElement.duration;
+    }
+  }
+
+  updateVolume() {
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      this.audioPlayerRef.nativeElement.volume = this.volume;
+      localStorage.setItem('volume', this.volume.toString());
+    }
+  }
+
+  changeTime(event: any) {
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      this.audioPlayerRef.nativeElement.currentTime = event.target.value;
+    }
+  }
 }

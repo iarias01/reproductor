@@ -1,20 +1,126 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- <canvas #canvas></canvas> -->
+<app-stars-efects></app-stars-efects>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<app-background></app-background>
+<div class="contianer">
+  <ion-item>
+    <ion-input
+      type="file"
+      (change)="handleFileUpload($event)"
+      multiple
+    ></ion-input>
+  </ion-item>
+  <ion-list>
+    <ion-icon name="musical-note"></ion-icon>
+    <ion-item
+      *ngFor="let file of files; let i = index"
+      (click)="selectFile(file)"
+    >
+      {{ file.name }}
+    </ion-item>
+  </ion-list>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div *ngIf="selectedFile">
+    <div class="audio">
+      <audio
+        id="audioPlayer"
+        [src]="audioURL"
+        (timeupdate)="updateTime()"
+        (loadedmetadata)="updateTime()"
+        controls
+        #audioPlayer
+      ></audio>
+      <div class="actions">
+        <ion-button (click)="rewind()"
+          ><ion-icon name="play-back"></ion-icon
+        ></ion-button>
+        <ion-button (click)="forward()"
+          ><ion-icon name="play-forward"></ion-icon
+        ></ion-button>
+      </div>
+    </div>
+
+    <ion-item>
+      <ion-label>Speed</ion-label>
+      <ion-range
+        min="0.5"
+        max="2"
+        step="0.1"
+        [(ngModel)]="playbackRate"
+        (ionChange)="updatePlaybackRate()"
+      >
+        <ion-label slot="start">0.5x</ion-label>
+        <ion-label slot="end">2x</ion-label>
+      </ion-range>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Volume</ion-label>
+      <ion-range
+        min="0"
+        max="1"
+        step="0.1"
+        [(ngModel)]="volume"
+        (ionChange)="updateVolume()"
+      >
+        <ion-label slot="start">0</ion-label>
+        <ion-label slot="end">1</ion-label>
+      </ion-range>
+    </ion-item>
+
+    <div>Current Time: {{ currentTime | number:'1.0-0' }}s</div>
+    <div>Duration: {{ duration | number:'1.0-0' }}s</div>
+
+    <ion-item>
+      <ion-range
+        min="0"
+        [max]="duration"
+        step="0.1"
+        [(ngModel)]="currentTime"
+        (ionChange)="changeTime($event)"
+      >
+        <ion-label slot="start">{{ currentTime | number:'1.0-0' }}s</ion-label>
+        <ion-label slot="end">{{ duration | number:'1.0-0' }}s</ion-label>
+      </ion-range>
+    </ion-item>
   </div>
-</ion-content>
+
+  <!-- <div class="actions-music">
+    <app-button
+      text="probando"
+      icon="volume-mute-outline"
+      [iconOnly]="true"
+      [type]="volume === 0?'solid':'outline'"
+      [color]="volume === 0?'black':'white'"
+      radius="50%"
+      [disabled]="volume === 0"
+      size="md"
+      (emitClick)="changeVolume('mute')"
+    >
+    </app-button>
+    <app-button
+      text="probando"
+      icon="volume-low-outline"
+      [iconOnly]="true"
+      [type]="volume === 0?'solid':'outline'"
+      [color]="volume === 0?'black':'white'"
+      radius="50%"
+      [disabled]="volume === 0"
+      size="md"
+      (emitClick)="changeVolume('down')"
+    >
+    </app-button>
+    <app-button
+      text="probando"
+      icon="volume-high-outline"
+      [iconOnly]="true"
+      [type]="volume === 1?'solid':'outline'"
+      [color]="volume === 1?'black':'white'"
+      radius="50%"
+      [disabled]="volume === 1"
+      size="md"
+      (emitClick)="changeVolume('up')"
+    >
+    </app-button>
+  </div> -->
+</div>

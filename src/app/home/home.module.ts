@@ -5,15 +5,20 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
-
+import { BackgroundModule } from '../shared/components/background/background.module';
+import { StarsEfectsPageModule } from '../shared/components/stars-efects/stars-efects.module';
+import { ButtonPageModule } from '../shared/components/button/button.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    BackgroundModule,
+    StarsEfectsPageModule,
+    ButtonPageModule,
   ],
-  declarations: [HomePage]
+  declarations: [HomePage],
 })
 export class HomePageModule {}
