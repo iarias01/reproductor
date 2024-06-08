@@ -15,6 +15,7 @@ export class HomePage implements OnInit {
   currentTime: number = 0;
   duration: number = 0;
   volume: number = 1;
+  selectedIndex = -1;
 
   constructor() {
     const storedVolume = localStorage.getItem('volume');
@@ -22,7 +23,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.loadFilesFromLocalStorage();
+    //this.loadFilesFromLocalStorage();
   }
 
   loadFilesFromLocalStorage() {
@@ -40,12 +41,16 @@ export class HomePage implements OnInit {
       const fileURL = URL.createObjectURL(file);
       this.files.push({ name: file.name, url: fileURL });
     });
-    this.saveFilesToLocalStorage();
+    //this.saveFilesToLocalStorage();
+    const final = this.files.length - 1;
+    this.selectFile(this.files[final], final);
+    this.selectedIndex = final;
   }
 
-  selectFile(file: { name: string; url: string }) {
+  selectFile(file: { name: string; url: string }, index: number) {
     this.selectedFile = file;
     this.audioURL = file.url;
+    this.selectedIndex = index;
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
       this.audioPlayerRef.nativeElement.src = this.audioURL;
       this.audioPlayerRef.nativeElement.load();
@@ -79,6 +84,7 @@ export class HomePage implements OnInit {
   }
 
   updatePlaybackRate() {
+    console.log(this.playbackRate);
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
       this.audioPlayerRef.nativeElement.playbackRate = this.playbackRate;
     }
@@ -91,6 +97,14 @@ export class HomePage implements OnInit {
     }
   }
 
+  formatSecondsToMinutes(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.trunc(seconds % 60);
+    const formattedSeconds =
+      remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+    return `${minutes}:${formattedSeconds}`;
+  }
+
   updateVolume() {
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
       this.audioPlayerRef.nativeElement.volume = this.volume;
@@ -101,6 +115,43 @@ export class HomePage implements OnInit {
   changeTime(event: any) {
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
       this.audioPlayerRef.nativeElement.currentTime = event.target.value;
+    }
+  }
+
+  deleteFile(index: number) {
+    this.files.splice(index, 1);
+    //this.saveFilesToLocalStorage();
+
+    if (this.selectedFile && index === this.files.indexOf(this.selectedFile)) {
+      this.selectedFile = null;
+      this.audioURL = null;
+      if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+        this.audioPlayerRef.nativeElement.src = '';
+      }
+    }
+  }
+
+  clearFiles() {
+    this.files = [];
+    //this.saveFilesToLocalStorage();
+    this.selectedFile = null;
+    this.audioURL = null;
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      this.audioPlayerRef.nativeElement.src = '';
+    }
+  }
+
+  get isPlaying(): boolean {
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      return !this.audioPlayerRef.nativeElement.paused;
+    }
+    return false;
+  }
+
+  stop() {
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      this.audioPlayerRef.nativeElement.pause();
+      this.audioPlayerRef.nativeElement.currentTime = 0;
     }
   }
 }
