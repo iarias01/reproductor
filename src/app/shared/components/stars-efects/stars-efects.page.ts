@@ -4,6 +4,8 @@ import {
   OnDestroy,
   ViewChild,
   AfterViewInit,
+  Input,
+  OnChanges,
 } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -18,7 +20,8 @@ type Star = {
   templateUrl: './stars-efects.page.html',
   styleUrls: ['./stars-efects.page.scss'],
 })
-export class StarsEfectsPage implements AfterViewInit, OnDestroy {
+export class StarsEfectsPage implements AfterViewInit, OnDestroy, OnChanges {
+  @Input() changeVelocity = 0.01;
   STAR_COLOR = '#fff'; //#9F1C1C
   STAR_SIZE = 3;
   STAR_MIN_SCALE = 0.2;
@@ -42,6 +45,11 @@ export class StarsEfectsPage implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.initializeCanvas();
+    setTimeout(() => {}, 1000);
+  }
+
+  ngOnChanges(): void {
+    this.accelerateAnimation();
   }
 
   initializeCanvas() {
@@ -215,13 +223,11 @@ export class StarsEfectsPage implements AfterViewInit, OnDestroy {
   }
 
   accelerateAnimation() {
-    if (!this.accelerating) {
-      this.accelerating = true;
-      this.velocity.z = 0.0475;
-      this.STAR_SIZE = 5;
-      setTimeout(() => {
-        this.router.navigate(['/event-list']);
-      }, 500);
-    }
+    this.accelerating = true;
+    //this.velocity.z = 0.475;
+    this.velocity.z = 0.01 * this.changeVelocity * this.changeVelocity;
+    if (this.changeVelocity > 1.49)
+      this.velocity.z = 0.03 * this.changeVelocity;
+    this.STAR_SIZE = 5;
   }
 }
