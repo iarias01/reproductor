@@ -1,0 +1,12 @@
+.filter-option {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    background-color: #b9b9b9;
+  }
+}

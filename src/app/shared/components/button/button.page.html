@@ -1,0 +1,19 @@
+<!-- custom-button.component.html -->
+
+<button
+  [class]="customClass"
+  [ngStyle]="styles"
+  [disabled]="disabled"
+  #customButton
+  (click)="emitClick.emit()"
+>
+  <ng-container *ngIf="icon && iconPosition === 'left'">
+    <ion-icon class="button-icon" [name]="icon"></ion-icon>
+  </ng-container>
+  <ng-container *ngIf="!iconOnly">
+    <span class="button-text" #label>{{ text }}</span>
+  </ng-container>
+  <ng-container *ngIf="icon && iconPosition === 'right'">
+    <ion-icon class="button-icon" [name]="icon"></ion-icon>
+  </ng-container>
+</button>

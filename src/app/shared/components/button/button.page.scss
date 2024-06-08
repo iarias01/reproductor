@@ -1,0 +1,148 @@
+/* custom-button.component.css */
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+  margin: auto;
+  //box-sizing: border-box;
+  &:hover {
+    filter: brightness(1.2);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  }
+  &:active {
+    animation: destello 0.5s ease;
+  }
+}
+
+/* Colores */
+button.blue {
+  --button-color: rgb(6, 106, 221);
+  --text-color: #fff;
+  &--transparent {
+    --button-color: rgba(6, 106, 221, 0.65);
+  }
+}
+button.red {
+  --button-color: rgb(252, 80, 80);
+  --text-color: #fff;
+  &--transparent {
+    --button-color: rgba(252, 80, 80, 0.65);
+  }
+}
+button.yellow {
+  --button-color: rgb(242, 252, 104);
+  --text-color: #222;
+  &:hover {
+    filter: brightness(0.9);
+  }
+  &--transparent {
+    --button-color: rgba(242, 252, 104, 0.65);
+  }
+}
+button.green {
+  --button-color: rgb(20, 214, 133);
+  --text-color: #222;
+  &:hover {
+    filter: brightness(0.9);
+  }
+  &--transparent {
+    --button-color: rgba(20, 214, 133, 0.65);
+  }
+}
+button.white {
+  --button-color: rgb(255, 255, 255);
+  --text-color: #222;
+  &--transparent {
+    --button-color: rgba(255, 255, 255, 0.65);
+  }
+}
+
+button.black {
+  --button-color: rgb(22, 22, 22);
+  --text-color: #fff;
+  &--transparent {
+    --button-color: rgba(22, 22, 22, 0.85);
+  }
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background-color: gray;
+  color: #fff;
+  border-color: gray;
+  animation: none !important;
+}
+
+button.full-width {
+  width: 100%;
+  justify-content: center !important;
+}
+
+button.solid {
+  background-color: var(--button-color);
+  color: var(--text-color);
+  border: 2px solid var(--button-color);
+}
+
+button.clear {
+  background-color: transparent;
+  color: var(--button-color);
+  border: none;
+}
+
+button.outline {
+  background-color: transparent;
+  color: var(--button-color);
+  border: 1px solid var(--button-color);
+}
+
+button.text-shadow {
+  * {
+    text-shadow: 3px 1px 7px rgb(0, 0, 0);
+    text-shadow: -2px 6px 8px rgb(255, 255, 255);
+  }
+  svg {
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  }
+}
+
+/* Tamaños */
+button.xs {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+button.md {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+button.lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+}
+
+button.icon-only {
+  padding: 0.75rem;
+  &.lg {
+    font-size: 1.35rem;
+    padding: 0.75rem !important;
+  }
+  &.md {
+    font-size: 1rem;
+    padding: 0.5rem !important;
+  }
+  &.xs {
+    font-size: 0.75rem;
+    padding: 0.25rem !important;
+  }
+  i {
+    margin: 0;
+  }
+}

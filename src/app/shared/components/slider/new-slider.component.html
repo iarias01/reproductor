@@ -1,0 +1,21 @@
+<div class="slider">
+  <div
+    class="item"
+    *ngFor="let item of items; let index = index"
+    [ngStyle]="getItemStyles(index)"
+  >
+    <ng-container
+      [ngTemplateOutlet]="templateHtml"
+      [ngTemplateOutletContext]="{
+        item: item,
+        index: index
+      }"
+    ></ng-container>
+  </div>
+  <button id="prev" class="btn-slide" (click)="prev()">
+    <ion-icon name="chevron-back"></ion-icon>
+  </button>
+  <button id="next" class="btn-slide" (click)="next()">
+    <ion-icon name="chevron-forward"></ion-icon>
+  </button>
+</div>

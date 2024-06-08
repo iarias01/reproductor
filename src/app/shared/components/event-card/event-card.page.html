@@ -1,0 +1,22 @@
+<div class="social-event">
+  <img [src]="event.image" alt="" />
+  <div class="data">
+    <h1 class="title">{{ event.name }}</h1>
+    <p class="city">
+      <ion-icon name="earth"></ion-icon>
+      {{ event.address.city }}
+    </p>
+    <p class="day">{{ event.date.day }}</p>
+    <p class="day">
+      <ion-icon name="time"></ion-icon>
+      <span>{{ event.date.startTime }}hs</span> -
+      <span>{{ event.date.endTime }}hs</span>
+    </p>
+  </div>
+  <div class="more">
+    <button class="arrow">
+      <ion-icon *ngIf="!edit" name="arrow-forward"></ion-icon>
+      <ion-icon *ngIf="edit" name="create"></ion-icon>
+    </button>
+  </div>
+</div>

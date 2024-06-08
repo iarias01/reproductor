@@ -1,0 +1,15 @@
+<ion-content [fullscreen]="true">
+  <div class="container-maps">
+    <ion-item class="search">
+      <ion-input
+        #autocomplete
+        id="autocomplete"
+        type="text"
+        [label]="'searchAddress' | translate"
+        aria-label="Date"
+        labelPlacement="floating"
+      ></ion-input>
+    </ion-item>
+    <div #map class="map"></div>
+  </div>
+</ion-content>

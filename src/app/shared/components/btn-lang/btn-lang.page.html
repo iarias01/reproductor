@@ -1,0 +1,38 @@
+<ion-fab slot="fixed" horizontal="center" vertical="center">
+  <ion-fab-button class="btn-principal" color="dark">
+    <img
+      class="lang"
+      [src]="'./assets/images/languages/'+lang+'.png'"
+      alt="icon"
+    />
+  </ion-fab-button>
+  <ion-fab-list [side]="postion">
+    <ng-container *ngTemplateOutlet="options"></ng-container>
+  </ion-fab-list>
+</ion-fab>
+
+<ng-template #options>
+  <!-- <div
+    class="option"
+    *ngFor="let lang of languages"
+    (click)="setLanguage(lang.code)"
+  >
+    <img
+      class="image"
+      [src]="'./assets/images/languages/'+lang.code+'.png'"
+      alt="icon"
+    />
+    {{lang.name}}
+  </div> -->
+  <ion-fab-button
+    class="option"
+    *ngFor="let lang of languages"
+    (click)="setLanguage(lang.code)"
+  >
+    <img
+      class="image"
+      [src]="'./assets/images/languages/'+lang.code+'.png'"
+      alt="icon"
+    />
+  </ion-fab-button>
+</ng-template>

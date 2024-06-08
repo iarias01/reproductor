@@ -1,0 +1,7 @@
+<ion-item>
+  <ion-label position="stacked">{{'addImage'|translate}}</ion-label>
+  <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+</ion-item>
+<div *ngIf="imagePreview" class="preview">
+  <ion-img class="image-preview" [src]="imagePreview"></ion-img>
+</div>
