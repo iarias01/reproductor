@@ -1,6 +1,12 @@
 <app-stars-efects></app-stars-efects>
 
 <app-background image="1"></app-background>
+<app-music-bar
+  class="music"
+  *ngIf="audioPlayerRef"
+  [audioElement]="audioPlayerRef.nativeElement"
+></app-music-bar>
+
 <div class="contianer">
   <div class="mobile">
     <ion-item>

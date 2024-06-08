@@ -8,6 +8,7 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { BackgroundModule } from '../shared/components/background/background.module';
 import { StarsEfectsPageModule } from '../shared/components/stars-efects/stars-efects.module';
 import { ButtonPageModule } from '../shared/components/button/button.module';
+import { MusicBarPageModule } from '../shared/components/music-bar/music-bar.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { ButtonPageModule } from '../shared/components/button/button.module';
     BackgroundModule,
     StarsEfectsPageModule,
     ButtonPageModule,
+    MusicBarPageModule,
   ],
   declarations: [HomePage],
 })
