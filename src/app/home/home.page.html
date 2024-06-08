@@ -136,18 +136,9 @@
           interface="action-sheet"
           (ionChange)="updatePlaybackRate()"
         >
-          <ion-select-option [value]="0.70">0.70x</ion-select-option>
-          <ion-select-option [value]="0.75">0.75x</ion-select-option>
-          <ion-select-option [value]="0.80">0.80x</ion-select-option>
-          <ion-select-option [value]="0.85">0.85x</ion-select-option>
-          <ion-select-option [value]="0.90">0.90x</ion-select-option>
-          <ion-select-option [value]="0.95">0.95x</ion-select-option>
-          <ion-select-option [value]="1.00">1.00x</ion-select-option>
-          <ion-select-option [value]="1.05">1.05x</ion-select-option>
-          <ion-select-option [value]="1.10">1.10x</ion-select-option>
-          <ion-select-option [value]="1.15">1.15x</ion-select-option>
-          <ion-select-option [value]="1.20">1.20x</ion-select-option>
-          <ion-select-option [value]="1.25">1.25x</ion-select-option>
+          <ion-select-option *ngFor="let s of speeds" [value]="s"
+            >{{s}}x</ion-select-option
+          >
         </ion-select>
       </ion-item>
 

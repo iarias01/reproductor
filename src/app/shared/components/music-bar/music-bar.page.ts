@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   Input,
-  OnChanges,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -13,31 +12,24 @@ import {
   templateUrl: './music-bar.page.html',
   styleUrls: ['./music-bar.page.scss'],
 })
-export class MusicBarPage implements AfterViewInit, OnChanges {
+export class MusicBarPage implements AfterViewInit {
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   ctx: CanvasRenderingContext2D | null = null;
-  @Input() audioElement!: HTMLAudioElement; // Recibir el elemento de audio desde el componente padre
-  @Input() volume = 0.2;
+  @Input() audioElement!: HTMLAudioElement;
 
   constructor() {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['audioElement'] && !changes['audioElement'].firstChange) {
-      this.audioElement.volume = this.volume;
-    }
-  }
-
   ngAfterViewInit(): void {
-    this.ctx = this.canvas.nativeElement.getContext('2d');
-    this.canvas.nativeElement.width = window.innerWidth;
-    this.canvas.nativeElement.height = window.innerHeight;
-    this.initAudio();
+    setTimeout(() => {
+      this.ctx = this.canvas.nativeElement.getContext('2d');
+      this.canvas.nativeElement.width = window.innerWidth;
+      this.canvas.nativeElement.height = window.innerHeight;
+      this.initAudio();
+    }, 1000);
   }
 
   initAudio() {
     const audio = this.audioElement;
-    audio.loop = true;
-    audio.volume = this.volume;
     audio.load();
     audio.addEventListener('canplay', () => {
       this.initAnalyser();

@@ -17,13 +17,24 @@ export class HomePage implements OnInit {
   volume: number = 1;
   selectedIndex = -1;
 
+  speeds: number[] = [];
+
   constructor() {
-    const storedVolume = localStorage.getItem('volume');
-    this.volume = storedVolume ? parseFloat(storedVolume) : 1;
+    //const storedVolume = localStorage.getItem('volume');
+    //this.volume = storedVolume ? parseFloat(storedVolume) : 1;
+    this.speeds = this.generarArray();
   }
 
   ngOnInit() {
     //this.loadFilesFromLocalStorage();
+  }
+
+  generarArray(): number[] {
+    const array: number[] = [];
+    for (let i = 0.7; i <= 1.25; i += 0.01) {
+      array.push(Number(i.toFixed(2)));
+    }
+    return array;
   }
 
   loadFilesFromLocalStorage() {
@@ -108,7 +119,7 @@ export class HomePage implements OnInit {
   updateVolume() {
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
       this.audioPlayerRef.nativeElement.volume = this.volume;
-      localStorage.setItem('volume', this.volume.toString());
+      //localStorage.setItem('volume', this.volume.toString());
     }
   }
 
