@@ -18,6 +18,8 @@ export class HomePage implements OnInit {
   selectedIndex = -1;
   deleteTimeRage = false;
 
+  input = null;
+
   speeds: number[] = [];
 
   constructor() {
@@ -48,10 +50,11 @@ export class HomePage implements OnInit {
   }
 
   handleFileUpload(event: any) {
+    debugger;
     const newFiles: File[] = Array.from(event.target.files);
     newFiles.forEach((file) => {
       const fileURL = URL.createObjectURL(file);
-      this.files.push({ name: file.name, url: fileURL });
+      this.files = [{ name: file.name, url: fileURL }];
     });
     //this.saveFilesToLocalStorage();
     const final = this.files.length - 1;
@@ -142,6 +145,8 @@ export class HomePage implements OnInit {
         this.audioPlayerRef.nativeElement.src = '';
       }
     }
+
+    if (this.files.length === 0) this.input = null;
   }
 
   clearFiles() {

@@ -13,7 +13,7 @@
       <ion-input
         type="file"
         (change)="handleFileUpload($event)"
-        multiple
+        [(ngModel)]="input"
       ></ion-input>
     </ion-item>
     <ion-list class="list">
@@ -21,8 +21,9 @@
         *ngFor="let file of files; let i = index"
         [ngClass]="{ 'selected': i === selectedIndex }"
       >
-        <ion-label (click)="selectFile(file,i)">{{ file.name }}</ion-label>
-        <app-button
+        <ion-label>{{ file.name }}</ion-label>
+        <!--(click)="selectFile(file,i)"  <app-button
+          [disabled]="i === selectedIndex "
           slot="start"
           (click)="deleteFile(i)"
           icon="close-circle"
@@ -30,7 +31,7 @@
           type="clear"
           color="red"
         >
-        </app-button>
+        </app-button> -->
       </ion-item>
     </ion-list>
 
@@ -43,7 +44,13 @@
         #audioPlayer
       ></audio>
 
-      <div class="audio" *ngIf="selectedFile">
+      <img
+        *ngIf="!input || files.length===0"
+        src="./assets/icon/favicon.png"
+        alt="logo"
+      />
+
+      <div class="audio" *ngIf="selectedFile && files.length>0">
         <div class="time">
           <!-- <div>Current Time: {{ formatSecondsToMinutes(currentTime)}}m</div>
           <div>Duration: {{ formatSecondsToMinutes(duration) }}m</div> -->
