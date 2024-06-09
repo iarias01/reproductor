@@ -39,6 +39,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  ion-item {
+    width: 100%;
+  }
 }
 
 .music {

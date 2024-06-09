@@ -1,12 +1,12 @@
 <app-stars-efects [changeVelocity]="playbackRate"></app-stars-efects>
 
 <app-background image="1"></app-background>
-<app-music-bar
+<!-- <app-music-bar
   class="music"
   *ngIf="audioPlayerRef"
   [audioElement]="audioPlayerRef.nativeElement"
 ></app-music-bar>
-
+ -->
 <div class="contianer">
   <div class="mobile">
     <ion-item>
@@ -34,21 +34,21 @@
       </ion-item>
     </ion-list>
 
-    <div *ngIf="selectedFile" class="data-audio">
-      <div class="audio">
-        <audio
-          id="audioPlayer"
-          [src]="audioURL"
-          (timeupdate)="updateTime()"
-          (loadedmetadata)="updateTime()"
-          #audioPlayer
-        ></audio>
+    <div class="data-audio">
+      <audio
+        id="audioPlayer"
+        [src]="audioURL"
+        (timeupdate)="updateTime()"
+        (loadedmetadata)="updateTime()"
+        #audioPlayer
+      ></audio>
 
+      <div class="audio" *ngIf="selectedFile">
         <div class="time">
           <!-- <div>Current Time: {{ formatSecondsToMinutes(currentTime)}}m</div>
-          <div>Duration: {{ formatSecondsToMinutes(duration) }}m</div>
-   -->
-          <ion-item>
+          <div>Duration: {{ formatSecondsToMinutes(duration) }}m</div> -->
+
+          <ion-item *ngIf="!deleteTimeRage">
             <ion-range
               min="0"
               [max]="duration"
@@ -114,47 +114,47 @@
         </div>
 
         <h2>Velocidad: {{playbackRate}}</h2>
-      </div>
 
-      <ion-item>
-        <ion-label>Velocidad</ion-label>
-        <ion-range
-          min="0.5"
-          max="2"
-          step="0.1"
-          [(ngModel)]="playbackRate"
-          (ionChange)="updatePlaybackRate()"
-        >
-          <ion-label slot="start">0.5x</ion-label>
-          <ion-label slot="end">2x</ion-label>
-        </ion-range>
-      </ion-item>
-      <ion-item>
-        <ion-label>Velocidad</ion-label>
-        <ion-select
-          [(ngModel)]="playbackRate"
-          interface="action-sheet"
-          (ionChange)="updatePlaybackRate()"
-        >
-          <ion-select-option *ngFor="let s of speeds" [value]="s"
-            >{{s}}x</ion-select-option
+        <ion-item>
+          <ion-label>Velocidad</ion-label>
+          <ion-range
+            min="0.5"
+            max="2"
+            step="0.1"
+            [(ngModel)]="playbackRate"
+            (ionChange)="updatePlaybackRate()"
           >
-        </ion-select>
-      </ion-item>
+            <ion-label slot="start">0.5x</ion-label>
+            <ion-label slot="end">2x</ion-label>
+          </ion-range>
+        </ion-item>
+        <ion-item>
+          <ion-label>Velocidad</ion-label>
+          <ion-select
+            [(ngModel)]="playbackRate"
+            interface="action-sheet"
+            (ionChange)="updatePlaybackRate()"
+          >
+            <ion-select-option *ngFor="let s of speeds" [value]="s"
+              >{{s}}x</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
 
-      <ion-item>
-        <ion-label>Volumen</ion-label>
-        <ion-range
-          min="0"
-          max="1"
-          step="0.1"
-          [(ngModel)]="volume"
-          (ionChange)="updateVolume()"
-        >
-          <ion-label slot="start">0</ion-label>
-          <ion-label slot="end">1</ion-label>
-        </ion-range>
-      </ion-item>
+        <ion-item>
+          <ion-label>Volumen</ion-label>
+          <ion-range
+            min="0"
+            max="1"
+            step="0.1"
+            [(ngModel)]="volume"
+            (ionChange)="updateVolume()"
+          >
+            <ion-label slot="start">0</ion-label>
+            <ion-label slot="end">1</ion-label>
+          </ion-range>
+        </ion-item>
+      </div>
     </div>
     <app-button
       text="RESET APP"

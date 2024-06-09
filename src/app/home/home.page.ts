@@ -16,6 +16,7 @@ export class HomePage implements OnInit {
   duration: number = 0;
   volume: number = 1;
   selectedIndex = -1;
+  deleteTimeRage = false;
 
   speeds: number[] = [];
 
@@ -68,6 +69,7 @@ export class HomePage implements OnInit {
     } else {
       console.error('Audio player element not found');
     }
+    this.reset();
   }
 
   play() {
@@ -164,5 +166,20 @@ export class HomePage implements OnInit {
       this.audioPlayerRef.nativeElement.pause();
       this.audioPlayerRef.nativeElement.currentTime = 0;
     }
+  }
+
+  reset() {
+    this.playbackRate = 1;
+    this.currentTime = 0;
+    this.duration = 0;
+    this.updateVolume();
+    this.retoreTime();
+  }
+
+  retoreTime() {
+    this.deleteTimeRage = true;
+    setTimeout(() => {
+      this.deleteTimeRage = false;
+    }, 100);
   }
 }
