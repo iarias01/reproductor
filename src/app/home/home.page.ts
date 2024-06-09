@@ -16,7 +16,7 @@ export class HomePage implements OnInit {
   duration: number = 0;
   volume: number = 1;
   selectedIndex = -1;
-  deleteTimeRage = false;
+  deleteElement = false;
 
   input = null;
 
@@ -50,7 +50,6 @@ export class HomePage implements OnInit {
   }
 
   handleFileUpload(event: any) {
-    debugger;
     const newFiles: File[] = Array.from(event.target.files);
     newFiles.forEach((file) => {
       const fileURL = URL.createObjectURL(file);
@@ -182,9 +181,9 @@ export class HomePage implements OnInit {
   }
 
   retoreTime() {
-    this.deleteTimeRage = true;
+    this.deleteElement = true;
     setTimeout(() => {
-      this.deleteTimeRage = false;
+      this.deleteElement = false;
     }, 100);
   }
 }

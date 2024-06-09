@@ -1,12 +1,12 @@
 <app-stars-efects [changeVelocity]="playbackRate"></app-stars-efects>
 
 <app-background image="1"></app-background>
-<!-- <app-music-bar
+<app-music-bar
   class="music"
-  *ngIf="audioPlayerRef"
+  *ngIf="audioPlayerRef "
   [audioElement]="audioPlayerRef.nativeElement"
 ></app-music-bar>
- -->
+
 <div class="contianer">
   <div class="mobile">
     <ion-item>
@@ -55,7 +55,7 @@
           <!-- <div>Current Time: {{ formatSecondsToMinutes(currentTime)}}m</div>
           <div>Duration: {{ formatSecondsToMinutes(duration) }}m</div> -->
 
-          <ion-item *ngIf="!deleteTimeRage">
+          <ion-item *ngIf="!deleteElement">
             <ion-range
               min="0"
               [max]="duration"

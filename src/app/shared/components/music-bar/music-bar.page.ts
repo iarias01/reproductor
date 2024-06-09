@@ -4,6 +4,7 @@ import {
   ElementRef,
   Input,
   SimpleChanges,
+  OnChanges,
   ViewChild,
 } from '@angular/core';
 
@@ -12,10 +13,11 @@ import {
   templateUrl: './music-bar.page.html',
   styleUrls: ['./music-bar.page.scss'],
 })
-export class MusicBarPage implements AfterViewInit {
+export class MusicBarPage implements AfterViewInit, OnChanges {
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   ctx: CanvasRenderingContext2D | null = null;
   @Input() audioElement!: HTMLAudioElement;
+  firstChange = true;
 
   constructor() {}
 
@@ -25,7 +27,14 @@ export class MusicBarPage implements AfterViewInit {
       this.canvas.nativeElement.width = window.innerWidth;
       this.canvas.nativeElement.height = window.innerHeight;
       this.initAudio();
+      this.firstChange = false;
     }, 1000);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['audioURL'] && !this.firstChange) {
+      this.initAudio();
+    }
   }
 
   initAudio() {
