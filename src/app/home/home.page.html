@@ -10,11 +10,18 @@
 <div class="contianer">
   <div class="mobile">
     <ion-item>
-      <ion-input
+      <input
         type="file"
         (change)="handleFileUpload($event)"
         [(ngModel)]="input"
-      ></ion-input>
+        accept="audio/*"
+      />
+      <!-- <ion-input
+        type="file"
+        (change)="handleFileUpload($event)"
+        [(ngModel)]="input"
+        accept=".mp3"
+      ></ion-input> -->
     </ion-item>
     <ion-list class="list">
       <ion-item

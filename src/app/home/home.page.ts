@@ -51,14 +51,24 @@ export class HomePage implements OnInit {
 
   handleFileUpload(event: any) {
     const newFiles: File[] = Array.from(event.target.files);
-    newFiles.forEach((file) => {
-      const fileURL = URL.createObjectURL(file);
-      this.files = [{ name: file.name, url: fileURL }];
-    });
-    //this.saveFilesToLocalStorage();
-    const final = this.files.length - 1;
-    this.selectFile(this.files[final], final);
-    this.selectedIndex = final;
+
+    const audioFiles = newFiles.filter((file) =>
+      file.type.startsWith('audio/')
+    );
+
+    if (audioFiles.length > 0) {
+      newFiles.forEach((file) => {
+        const fileURL = URL.createObjectURL(file);
+        this.files = [{ name: file.name, url: fileURL }];
+      });
+      //this.saveFilesToLocalStorage();
+      const final = this.files.length - 1;
+      this.selectFile(this.files[final], final);
+      this.selectedIndex = final;
+      return;
+    }
+
+    alert('no es un archivo de audio');
   }
 
   selectFile(file: { name: string; url: string }, index: number) {
