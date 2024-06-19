@@ -29,7 +29,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.loadFilesFromLocalStorage();
+    //this.loadFilesFromLocalStorage();
   }
 
   generarArray(): number[] {
