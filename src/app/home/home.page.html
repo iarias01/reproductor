@@ -8,6 +8,9 @@
 ></app-music-bar>
 
 <div class="contianer">
+  <div class="regresive-counter show" *ngIf="showCounter">
+    {{regresiveCount}}
+  </div>
   <div class="mobile">
     <ion-item>
       <input

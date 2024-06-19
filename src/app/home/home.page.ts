@@ -22,6 +22,9 @@ export class HomePage implements OnInit {
 
   speeds: number[] = [];
 
+  regresiveCount = 5;
+  showCounter = false;
+
   constructor() {
     //const storedVolume = localStorage.getItem('volume');
     //this.volume = storedVolume ? parseFloat(storedVolume) : 1;
@@ -88,8 +91,33 @@ export class HomePage implements OnInit {
 
   play() {
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      if (this.currentTime === 0) {
+        this.startDecrementing();
+        setTimeout(() => {
+          this.audioPlayerRef.nativeElement.play();
+        }, 5000);
+        return;
+      }
+
       this.audioPlayerRef.nativeElement.play();
     }
+  }
+  updateCounter() {
+    this.showCounter = true;
+    setTimeout(() => {
+      this.showCounter = false;
+    }, 300);
+  }
+
+  startDecrementing() {
+    this.regresiveCount = 6;
+    const intervalId = window.setInterval(() => {
+      this.regresiveCount--;
+      this.updateCounter();
+      if (this.regresiveCount === 0) {
+        clearInterval(intervalId);
+      }
+    }, 1000);
   }
 
   pause() {
