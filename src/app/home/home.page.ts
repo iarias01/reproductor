@@ -43,6 +43,8 @@ export class HomePage implements OnInit {
   loadFilesFromLocalStorage() {
     const storedFiles = JSON.parse(localStorage.getItem('files') || '[]');
     this.files = storedFiles;
+    this.selectFile(this.files[0], 0);
+    this.selectedIndex = 0;
   }
 
   saveFilesToLocalStorage() {
