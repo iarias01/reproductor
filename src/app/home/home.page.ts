@@ -29,7 +29,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    //this.loadFilesFromLocalStorage();
+    this.loadFilesFromLocalStorage();
   }
 
   generarArray(): number[] {
@@ -61,7 +61,7 @@ export class HomePage implements OnInit {
         const fileURL = URL.createObjectURL(file);
         this.files = [{ name: file.name, url: fileURL }];
       });
-      //this.saveFilesToLocalStorage();
+      this.saveFilesToLocalStorage();
       const final = this.files.length - 1;
       this.selectFile(this.files[final], final);
       this.selectedIndex = final;
