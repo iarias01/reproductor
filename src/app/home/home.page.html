@@ -64,7 +64,6 @@
         <div class="time">
           <!-- <div>Current Time: {{ formatSecondsToMinutes(currentTime)}}m</div>
           <div>Duration: {{ formatSecondsToMinutes(duration) }}m</div> -->
-
           <ion-item *ngIf="!deleteElement">
             <ion-range
               min="0"
@@ -81,6 +80,18 @@
               >
             </ion-range>
           </ion-item>
+        </div>
+
+        <div class="actions">
+          <ion-item>
+            <ion-input
+              label="Comenzar en: "
+              placeholder="Enter text"
+              [(ngModel)]="currentTime"
+            ></ion-input>
+          </ion-item>
+          <ion-toggle [(ngModel)]="withDelay">Con delay 5s</ion-toggle
+          ><br /><br />
         </div>
         <div class="actions">
           <app-button

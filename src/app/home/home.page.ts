@@ -17,6 +17,7 @@ export class HomePage implements OnInit {
   volume: number = 1;
   selectedIndex = -1;
   deleteElement = false;
+  withDelay = false;
 
   input = null;
 
@@ -34,7 +35,9 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     //localStorage.clear();
-    //this.loadFilesFromLocalStorage();
+    /*  setTimeout(() => {
+      this.loadFilesFromLocalStorage();
+    }, 1000); */
   }
 
   generarArray(): number[] {
@@ -59,7 +62,6 @@ export class HomePage implements OnInit {
   }
 
   handleFileUpload(event: any) {
-    console.log('event', event.target.files);
     const newFiles: File[] = Array.from(event.target.files);
 
     const audioFiles = newFiles.filter((file) =>
@@ -83,6 +85,7 @@ export class HomePage implements OnInit {
   }
 
   selectFile(file: { name: string; url: string }, index: number) {
+    console.log('file', file);
     this.selectedFile = file;
     this.audioURL = file.url;
     this.selectedIndex = index;
@@ -98,7 +101,7 @@ export class HomePage implements OnInit {
   play() {
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
       this.disabledPlay = true;
-      if (this.currentTime === 0) {
+      if (this.currentTime === 0 || this.withDelay) {
         this.startDecrementing();
         setTimeout(() => {
           this.audioPlayerRef.nativeElement.play();
