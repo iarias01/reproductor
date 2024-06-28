@@ -9,7 +9,7 @@
 
 <div class="contianer">
   <div class="regresive-counter show" *ngIf="showCounter">
-    {{regresiveCount}}
+    {{regresiveCount+1}}
   </div>
   <div class="mobile">
     <ion-item>
@@ -98,6 +98,7 @@
             [iconOnly]="true"
             color="blue"
             radius="50%"
+            [disabled]="disabledPlay"
             (click)="play()"
           >
           </app-button>

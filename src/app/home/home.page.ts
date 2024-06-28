@@ -24,6 +24,7 @@ export class HomePage implements OnInit {
 
   regresiveCount = 5;
   showCounter = false;
+  disabledPlay = false;
 
   constructor() {
     //const storedVolume = localStorage.getItem('volume');
@@ -32,6 +33,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    //localStorage.clear();
     //this.loadFilesFromLocalStorage();
   }
 
@@ -45,21 +47,25 @@ export class HomePage implements OnInit {
 
   loadFilesFromLocalStorage() {
     const storedFiles = JSON.parse(localStorage.getItem('files') || '[]');
+    console.log(storedFiles);
     this.files = storedFiles;
     this.selectFile(this.files[0], 0);
     this.selectedIndex = 0;
   }
 
   saveFilesToLocalStorage() {
+    console.log(JSON.stringify(this.files));
     localStorage.setItem('files', JSON.stringify(this.files));
   }
 
   handleFileUpload(event: any) {
+    console.log('event', event.target.files);
     const newFiles: File[] = Array.from(event.target.files);
 
     const audioFiles = newFiles.filter((file) =>
       file.type.startsWith('audio/')
     );
+    console.log('audioFiles', audioFiles);
 
     if (audioFiles.length > 0) {
       newFiles.forEach((file) => {
@@ -91,15 +97,18 @@ export class HomePage implements OnInit {
 
   play() {
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      this.disabledPlay = true;
       if (this.currentTime === 0) {
         this.startDecrementing();
         setTimeout(() => {
           this.audioPlayerRef.nativeElement.play();
+          this.disabledPlay = false;
         }, 5000);
         return;
       }
 
       this.audioPlayerRef.nativeElement.play();
+      this.disabledPlay = false;
     }
   }
   updateCounter() {
@@ -110,7 +119,7 @@ export class HomePage implements OnInit {
   }
 
   startDecrementing() {
-    this.regresiveCount = 6;
+    this.regresiveCount = 5;
     const intervalId = window.setInterval(() => {
       this.regresiveCount--;
       this.updateCounter();
