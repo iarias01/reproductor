@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  Renderer2,
+  NgZone,
+} from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -15,11 +22,11 @@ export class HomePage implements OnInit {
   currentTime: number = 0;
   duration: number = 0;
   volume: number = 1;
-  selectedIndex = -1;
+  selectedSong = '';
   deleteElement = false;
   withDelay = false;
 
-  input = null;
+  inputVar: any = null;
 
   speeds: number[] = [];
 
@@ -27,7 +34,7 @@ export class HomePage implements OnInit {
   showCounter = false;
   disabledPlay = false;
 
-  constructor() {
+  constructor(private renderer: Renderer2, private ngZone: NgZone) {
     //const storedVolume = localStorage.getItem('volume');
     //this.volume = storedVolume ? parseFloat(storedVolume) : 1;
     this.speeds = this.generarArray();
@@ -35,9 +42,25 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     //localStorage.clear();
-    /*  setTimeout(() => {
-      this.loadFilesFromLocalStorage();
-    }, 1000); */
+    this.addPassiveEventListeners();
+    setTimeout(() => {
+      //this.loadFilesFromLocalStorage();
+      this.loadFilesCoreo();
+    }, 1000);
+  }
+
+  addPassiveEventListeners() {
+    this.ngZone.runOutsideAngular(() => {
+      if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+        this.audioPlayerRef.nativeElement.addEventListener(
+          'touchstart',
+          (event) => {
+            event.preventDefault();
+          },
+          { passive: true }
+        );
+      }
+    });
   }
 
   generarArray(): number[] {
@@ -50,58 +73,102 @@ export class HomePage implements OnInit {
 
   loadFilesFromLocalStorage() {
     const storedFiles = JSON.parse(localStorage.getItem('files') || '[]');
-    console.log(storedFiles);
+
     this.files = storedFiles;
-    this.selectFile(this.files[0], 0);
-    this.selectedIndex = 0;
+    this.selectFile(this.files[0]);
+    this.selectedSong = this.files[0].url;
+  }
+
+  loadFilesCoreo() {
+    const coreo = {
+      name: 'Cris Gomez --COREO-- Me Negó.mp3',
+      url: './assets/musica/Cris Gomez --COREO-- Me Negó.mp3',
+    };
+    const calel13 = {
+      name: 'Calle 13 - Suave.mp3',
+      url: './assets/musica/Calle 13 - Suave.mp3',
+    };
+
+    this.files = [coreo, calel13];
+    this.selectFile(this.files[0]);
+    this.selectedSong = this.files[0].url;
   }
 
   saveFilesToLocalStorage() {
-    console.log(JSON.stringify(this.files));
     localStorage.setItem('files', JSON.stringify(this.files));
   }
 
   handleFileUpload(event: any) {
-    const newFiles: File[] = Array.from(event.target.files);
+    this.ngZone.run(() => {
+      const newFiles: File[] = Array.from(event.target.files);
 
-    const audioFiles = newFiles.filter((file) =>
-      file.type.startsWith('audio/')
-    );
-    console.log('audioFiles', audioFiles);
+      const audioFiles = newFiles.filter((file) =>
+        file.type.startsWith('audio/')
+      );
 
-    if (audioFiles.length > 0) {
-      newFiles.forEach((file) => {
-        const fileURL = URL.createObjectURL(file);
-        this.files = [{ name: file.name, url: fileURL }];
-      });
-      this.saveFilesToLocalStorage();
-      const final = this.files.length - 1;
-      this.selectFile(this.files[final], final);
-      this.selectedIndex = final;
-      return;
-    }
+      if (audioFiles.length > 0) {
+        audioFiles.forEach((file) => {
+          const fileURL = URL.createObjectURL(file);
+          this.files.push({ name: file.name, url: fileURL });
+        });
+        this.saveFilesToLocalStorage();
+        const final = this.files.length - 1;
+        this.selectFile(this.files[final]);
+        this.selectedSong = this.files[final].url;
+        return;
+      }
 
-    alert('no es un archivo de audio');
+      alert('No es un archivo de audio');
+    });
   }
 
-  selectFile(file: { name: string; url: string }, index: number) {
-    console.log('file', file);
+  selectFile(file: { name: string; url: string }) {
     this.selectedFile = file;
     this.audioURL = file.url;
-    this.selectedIndex = index;
+    this.selectedSong = file.url;
+    this.deleteElement = true;
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
-      this.audioPlayerRef.nativeElement.src = this.audioURL;
-      this.audioPlayerRef.nativeElement.load();
+      this.disconnect(this.audioURL);
+      //this.audioPlayerRef.nativeElement.src = this.audioURL;
+      //this.audioPlayerRef.nativeElement.load();
     } else {
       console.error('Audio player element not found');
     }
     this.reset();
   }
 
+  disconnect(url: string) {
+    // Antes de cambiar de tema:
+    const audioPlayer = this.audioPlayerRef.nativeElement;
+    if (audioPlayer) {
+      if (!audioPlayer.paused) {
+        audioPlayer.pause();
+      }
+      // Crea un nuevo elemento de audio
+      const newAudioPlayer = new Audio();
+      newAudioPlayer.src = url; // Cambia esto con la URL correcta
+      newAudioPlayer.load();
+
+      // Reemplaza el elemento de audio anterior con el nuevo
+      if (audioPlayer.parentNode)
+        audioPlayer.parentNode.replaceChild(
+          newAudioPlayer,
+          this.audioPlayerRef.nativeElement
+        );
+      newAudioPlayer.addEventListener('loadedmetadata', () => {
+        this.updateTime();
+      });
+      newAudioPlayer.addEventListener('timeupdate', () => {
+        this.updateTime();
+      });
+      this.audioPlayerRef.nativeElement = newAudioPlayer;
+    }
+  }
+
   play() {
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
       this.disabledPlay = true;
-      if (this.currentTime === 0 || this.withDelay) {
+      if (this.withDelay) {
         this.startDecrementing();
         setTimeout(() => {
           this.audioPlayerRef.nativeElement.play();
@@ -151,7 +218,6 @@ export class HomePage implements OnInit {
   }
 
   updatePlaybackRate() {
-    console.log(this.playbackRate);
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
       this.audioPlayerRef.nativeElement.playbackRate = this.playbackRate;
     }
@@ -160,7 +226,8 @@ export class HomePage implements OnInit {
   updateTime() {
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
       this.currentTime = this.audioPlayerRef.nativeElement.currentTime;
-      this.duration = this.audioPlayerRef.nativeElement.duration;
+      const duration = this.audioPlayerRef.nativeElement.duration;
+      this.duration = duration ? duration : 0;
     }
   }
 
@@ -185,19 +252,19 @@ export class HomePage implements OnInit {
     }
   }
 
-  deleteFile(index: number) {
+  deleteFile(url: string) {
+    const index = this.files.findIndex((obj) => obj.url === url);
     this.files.splice(index, 1);
     //this.saveFilesToLocalStorage();
 
-    if (this.selectedFile && index === this.files.indexOf(this.selectedFile)) {
+    if (this.files.length === 0) {
       this.selectedFile = null;
       this.audioURL = null;
       if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
         this.audioPlayerRef.nativeElement.src = '';
       }
+      this.inputVar = null;
     }
-
-    if (this.files.length === 0) this.input = null;
   }
 
   clearFiles() {
@@ -229,13 +296,18 @@ export class HomePage implements OnInit {
     this.currentTime = 0;
     this.duration = 0;
     this.updateVolume();
-    this.retoreTime();
+    this.updateTime();
+    this.restoreTime();
   }
 
-  retoreTime() {
+  restoreTime() {
     this.deleteElement = true;
     setTimeout(() => {
       this.deleteElement = false;
-    }, 100);
+    }, 300);
+  }
+
+  get getValidateExisteFiles() {
+    return this.inputVar || this.files.length > 0;
   }
 }

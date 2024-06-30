@@ -16,7 +16,7 @@
       <input
         type="file"
         (change)="handleFileUpload($event)"
-        [(ngModel)]="input"
+        [(ngModel)]="inputVar"
       />
       <!--accept="audio/*"
          <ion-input
@@ -28,12 +28,23 @@
     </ion-item>
     <ion-list class="list">
       <ion-item
-        *ngFor="let file of files; let i = index"
-        [ngClass]="{ 'selected': i === selectedIndex }"
+        *ngFor="let file of files"
+        [ngClass]="{ 'selected': file.url === selectedSong }"
+        (click)="selectFile(file)"
       >
-        <ion-label>{{ file.name }}</ion-label>
+        <ion-label>{{ file.name }}</ion-label
+        ><app-button
+          [disabled]="file.url === selectedSong "
+          slot="start"
+          (click)="deleteFile(file.url)"
+          icon="close-circle"
+          [iconOnly]="true"
+          type="clear"
+          color="red"
+        >
+        </app-button>
         <!--(click)="selectFile(file,i)"  <app-button
-          [disabled]="i === selectedIndex "
+          [disabled]="file.url === selectedSong "
           slot="start"
           (click)="deleteFile(i)"
           icon="close-circle"
@@ -55,12 +66,12 @@
       ></audio>
 
       <img
-        *ngIf="!input || files.length===0"
+        *ngIf="!getValidateExisteFiles"
         src="./assets/icon/favicon.png"
         alt="logo"
       />
 
-      <div class="audio" *ngIf="selectedFile && files.length>0">
+      <div class="audio" *ngIf="selectedFile &&  getValidateExisteFiles">
         <div class="time">
           <!-- <div>Current Time: {{ formatSecondsToMinutes(currentTime)}}m</div>
           <div>Duration: {{ formatSecondsToMinutes(duration) }}m</div> -->
@@ -81,17 +92,18 @@
             </ion-range>
           </ion-item>
         </div>
-
-        <div class="actions">
-          <ion-item>
+        <br />
+        <div class="begin">
+          <!-- <ion-item>
             <ion-input
+              class="input-centered"
               label="Comenzar en: "
               placeholder="Enter text"
               [(ngModel)]="currentTime"
             ></ion-input>
-          </ion-item>
-          <ion-toggle [(ngModel)]="withDelay">Con delay 5s</ion-toggle
-          ><br /><br />
+            <span>s</span>
+          </ion-item> -->
+          <ion-toggle [(ngModel)]="withDelay">Con delay 5s</ion-toggle>
         </div>
         <div class="actions">
           <app-button
@@ -143,7 +155,6 @@
         </div>
 
         <h2>Velocidad: {{playbackRate}}</h2>
-
         <ion-item>
           <ion-label>Velocidad</ion-label>
           <ion-range
@@ -170,7 +181,7 @@
           </ion-select>
         </ion-item>
 
-        <ion-item>
+        <!-- <ion-item>
           <ion-label>Volumen</ion-label>
           <ion-range
             min="0"
@@ -178,11 +189,12 @@
             step="0.1"
             [(ngModel)]="volume"
             (ionChange)="updateVolume()"
+            *ngIf="!deleteElement"
           >
             <ion-label slot="start">0</ion-label>
             <ion-label slot="end">1</ion-label>
           </ion-range>
-        </ion-item>
+        </ion-item> -->
       </div>
     </div>
     <app-button
