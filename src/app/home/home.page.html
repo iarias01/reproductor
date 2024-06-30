@@ -12,7 +12,7 @@
     {{regresiveCount+1}}
   </div>
   <div class="mobile">
-    <ion-item>
+    <ion-item class="animate__animated animate__rollIn">
       <input
         type="file"
         (change)="handleFileUpload($event)"
@@ -26,7 +26,7 @@
         accept=".mp3"
       ></ion-input> -->
     </ion-item>
-    <ion-list class="list">
+    <ion-list class="list animate__animated animate__slideInDown">
       <ion-item
         *ngFor="let file of files"
         [ngClass]="{ 'selected': file.url === selectedSong }"
@@ -72,7 +72,7 @@
       />
 
       <div class="audio" *ngIf="selectedFile &&  getValidateExisteFiles">
-        <div class="time">
+        <div class="time animate__animated animate__rubberBand">
           <!-- <div>Current Time: {{ formatSecondsToMinutes(currentTime)}}m</div>
           <div>Duration: {{ formatSecondsToMinutes(duration) }}m</div> -->
           <ion-item *ngIf="!deleteElement">
@@ -93,7 +93,7 @@
           </ion-item>
         </div>
         <br />
-        <div class="begin">
+        <div class="begin animate__animated animate__backInUp">
           <!-- <ion-item>
             <ion-input
               class="input-centered"
@@ -105,7 +105,7 @@
           </ion-item> -->
           <ion-toggle [(ngModel)]="withDelay">Con delay 5s</ion-toggle>
         </div>
-        <div class="actions">
+        <div class="actions animate__animated animate__bounce">
           <app-button
             icon="play-back"
             [iconOnly]="true"
@@ -154,8 +154,10 @@
           </app-button>
         </div>
 
-        <h2>Velocidad: {{playbackRate}}</h2>
-        <ion-item>
+        <h2 class="animate__animated animate__flipInX">
+          Velocidad: {{playbackRate}}
+        </h2>
+        <ion-item class="animate__animated animate__fadeInRightBig">
           <ion-label>Velocidad</ion-label>
           <ion-range
             min="0.5"
@@ -168,7 +170,7 @@
             <ion-label slot="end">2x</ion-label>
           </ion-range>
         </ion-item>
-        <ion-item>
+        <ion-item class="animate__animated animate__fadeInLeftBig">
           <ion-label>Velocidad</ion-label>
           <ion-select
             [(ngModel)]="playbackRate"
