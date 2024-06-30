@@ -12,20 +12,20 @@
     {{regresiveCount+1}}
   </div>
   <div class="mobile">
-    <ion-item class="animate__animated animate__rollIn">
-      <input
-        type="file"
-        (change)="handleFileUpload($event)"
-        [(ngModel)]="inputVar"
-      />
-      <!--accept="audio/*"
+    <input
+      class="animate__animated animate__rollIn inputfile"
+      type="file"
+      (change)="handleFileUpload($event)"
+      [(ngModel)]="inputVar"
+    />
+    <!--accept="audio/*"
          <ion-input
         type="file"
         (change)="handleFileUpload($event)"
         [(ngModel)]="input"
         accept=".mp3"
       ></ion-input> -->
-    </ion-item>
+    <h1 *ngIf="!selectedSong">SELECCIONE UN TEMA</h1>
     <ion-list class="list animate__animated animate__slideInDown">
       <ion-item
         *ngFor="let file of files"
@@ -66,7 +66,7 @@
       ></audio>
 
       <img
-        *ngIf="!getValidateExisteFiles"
+        *ngIf="!getValidateExisteFiles || !selectedSong"
         src="./assets/icon/favicon.png"
         alt="logo"
       />
@@ -93,18 +93,6 @@
           </ion-item>
         </div>
         <br />
-        <div class="begin animate__animated animate__backInUp">
-          <!-- <ion-item>
-            <ion-input
-              class="input-centered"
-              label="Comenzar en: "
-              placeholder="Enter text"
-              [(ngModel)]="currentTime"
-            ></ion-input>
-            <span>s</span>
-          </ion-item> -->
-          <ion-toggle [(ngModel)]="withDelay">Con delay 5s</ion-toggle>
-        </div>
         <div class="actions animate__animated animate__bounce">
           <app-button
             icon="play-back"
@@ -152,6 +140,26 @@
             (click)="forward()"
           >
           </app-button>
+        </div>
+        <div class="begin animate__animated animate__backInUp">
+          <!-- <ion-item>
+            <ion-input
+              class="input-centered"
+              label="Comenzar en: "
+              placeholder="Enter text"
+              [(ngModel)]="currentTime"
+            ></ion-input>
+            <span>s</span>
+          </ion-item> -->
+          <ion-item>
+            <ion-toggle
+              color="danger"
+              [enableOnOffLabels]="true"
+              [(ngModel)]="withDelay"
+              mode="md"
+              >Con delay 5s</ion-toggle
+            >
+          </ion-item>
         </div>
 
         <h2 class="animate__animated animate__flipInX">

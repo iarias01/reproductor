@@ -34,13 +34,27 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+/* @import "@ionic/angular/css/palettes/dark.system.css"; */
+
+@font-face {
+  font-family: "Sansation_Regular";
+  src: url("./assets/fonts/Sansation_Regular.ttf") format("opentype");
+}
+
+body {
+  * {
+    font-family: "Sansation_Regular", sans-serif;
+    box-sizing: border-box;
+  }
+}
 
 ion-list {
   --background: transparent;
+  color: #fff;
 }
 ion-item {
   --background: transparent;
+  color: #fff;
 }
 
 ion-select {

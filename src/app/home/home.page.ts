@@ -90,8 +90,8 @@ export class HomePage implements OnInit {
     };
 
     this.files = [coreo, calel13];
-    this.selectFile(this.files[0]);
-    this.selectedSong = this.files[0].url;
+    //this.selectFile(this.files[0]);
+    //this.selectedSong = this.files[0].url;
   }
 
   saveFilesToLocalStorage() {
