@@ -1,14 +1,12 @@
 <ion-content [fullscreen]="true">
-  <app-stars-efects [changeVelocity]="playbackRate"></app-stars-efects>
-
-  <app-background image="1"></app-background>
-  <app-music-bar
-    class="music"
-    *ngIf="audioPlayerRef "
-    [audioElement]="audioPlayerRef.nativeElement"
-  ></app-music-bar>
-
   <div class="mobile">
+    <app-stars-efects [changeVelocity]="playbackRate"></app-stars-efects>
+    <app-background image="1"></app-background>
+    <app-music-bar
+      class="music"
+      *ngIf="audioPlayerRef "
+      [audioElement]="audioPlayerRef.nativeElement"
+    ></app-music-bar>
     <div class="regresive-counter show" *ngIf="regresiveCount>0">
       <span *ngIf="showCounter">{{regresiveCount}}</span>
     </div>
@@ -32,7 +30,7 @@
         [ngClass]="{ 'selected': file.url === selectedSong }"
         (click)="selectFile(file)"
       >
-        <ion-label>{{ file.name }}</ion-label
+        <ion-label class="list__label">{{ file.name }}</ion-label
         ><app-button
           [disabled]="file.url === selectedSong "
           slot="start"
@@ -164,7 +162,7 @@
         </div>
 
         <h2 class="animate__animated animate__flipInX">
-          Velocidad: <b>{{playbackRate}}x</b>
+          Velocidad: <b>{{playbackRate}} x</b>
         </h2>
         <ion-item class="animate__animated animate__fadeInRightBig">
           <ion-label>Velocidad</ion-label>
@@ -187,7 +185,7 @@
             (ionChange)="updatePlaybackRate()"
           >
             <ion-select-option *ngFor="let s of speeds" [value]="s"
-              >{{s}}x</ion-select-option
+              >{{s}} x</ion-select-option
             >
           </ion-select>
         </ion-item>
@@ -208,7 +206,7 @@
         </ion-item> -->
       </div>
     </div>
-    <app-button
+    <!-- <app-button
       text="RESET APP"
       type="solid"
       color="red"
@@ -216,6 +214,6 @@
       margin="20px auto"
       (click)="clearFiles()"
     >
-    </app-button>
+    </app-button> -->
   </div>
 </ion-content>
