@@ -30,7 +30,7 @@ export class HomePage implements OnInit {
 
   speeds: number[] = [];
 
-  regresiveCount = 5;
+  regresiveCount = 0;
   showCounter = false;
   disabledPlay = false;
 
@@ -65,7 +65,7 @@ export class HomePage implements OnInit {
 
   generarArray(): number[] {
     const array: number[] = [];
-    for (let i = 0.7; i <= 1.25; i += 0.01) {
+    for (let i = 0.8; i <= 1.25; i += 0.01) {
       array.push(Number(i.toFixed(2)));
     }
     return array;
@@ -190,7 +190,12 @@ export class HomePage implements OnInit {
 
   startDecrementing() {
     this.regresiveCount = 5;
+    this.showCounter = true;
+    setTimeout(() => {
+      this.showCounter = false;
+    });
     const intervalId = window.setInterval(() => {
+      alert('va');
       this.regresiveCount--;
       this.updateCounter();
       if (this.regresiveCount === 0) {

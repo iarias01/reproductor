@@ -1,17 +1,17 @@
-<app-stars-efects [changeVelocity]="playbackRate"></app-stars-efects>
+<ion-content [fullscreen]="true">
+  <app-stars-efects [changeVelocity]="playbackRate"></app-stars-efects>
 
-<app-background image="1"></app-background>
-<app-music-bar
-  class="music"
-  *ngIf="audioPlayerRef "
-  [audioElement]="audioPlayerRef.nativeElement"
-></app-music-bar>
+  <app-background image="1"></app-background>
+  <app-music-bar
+    class="music"
+    *ngIf="audioPlayerRef "
+    [audioElement]="audioPlayerRef.nativeElement"
+  ></app-music-bar>
 
-<div class="contianer">
-  <div class="regresive-counter show" *ngIf="showCounter">
-    {{regresiveCount+1}}
-  </div>
   <div class="mobile">
+    <div class="regresive-counter show" *ngIf="regresiveCount>0">
+      <span *ngIf="showCounter">{{regresiveCount}}</span>
+    </div>
     <input
       class="animate__animated animate__rollIn inputfile"
       type="file"
@@ -69,6 +69,7 @@
         *ngIf="!getValidateExisteFiles || !selectedSong"
         src="./assets/icon/favicon.png"
         alt="logo"
+        class="logo"
       />
 
       <div class="audio" *ngIf="selectedFile &&  getValidateExisteFiles">
@@ -163,7 +164,7 @@
         </div>
 
         <h2 class="animate__animated animate__flipInX">
-          Velocidad: {{playbackRate}}
+          Velocidad: <b>{{playbackRate}}x</b>
         </h2>
         <ion-item class="animate__animated animate__fadeInRightBig">
           <ion-label>Velocidad</ion-label>
@@ -217,4 +218,4 @@
     >
     </app-button>
   </div>
-</div>
+</ion-content>

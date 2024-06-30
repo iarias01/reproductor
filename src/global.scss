@@ -40,6 +40,12 @@
   font-family: "Sansation_Regular";
   src: url("./assets/fonts/Sansation_Regular.ttf") format("opentype");
 }
+:host ion-content {
+  --background: transparent; /* Cambia #ffffff al color de fondo que desees */
+}
+ion-content {
+  --background: transparent; /* Cambia #ffffff al color de fondo que desees */
+}
 
 body {
   * {
