@@ -41,15 +41,10 @@
   src: url("./assets/fonts/Sansation_Regular.ttf") format("opentype");
 }
 :host ion-content {
-  --background: transparent; /* Cambia #ffffff al color de fondo que desees */
+  --background: transparent;
 }
 ion-content {
-  --background: rgba(
-    255,
-    255,
-    255,
-    0.075
-  ); /* Cambia #ffffff al color de fondo que desees */
+  --background: rgba(255, 255, 255, 0.2);
 }
 
 body {

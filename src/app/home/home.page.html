@@ -1,12 +1,12 @@
 <ion-content [fullscreen]="true">
+  <app-stars-efects [changeVelocity]="playbackRate"></app-stars-efects>
+  <app-background image="1"></app-background>
+  <app-music-bar
+    class="music"
+    *ngIf="audioPlayerRef "
+    [audioElement]="audioPlayerRef.nativeElement"
+  ></app-music-bar>
   <div class="mobile">
-    <app-stars-efects [changeVelocity]="playbackRate"></app-stars-efects>
-    <app-background image="1"></app-background>
-    <app-music-bar
-      class="music"
-      *ngIf="audioPlayerRef "
-      [audioElement]="audioPlayerRef.nativeElement"
-    ></app-music-bar>
     <div class="regresive-counter show" *ngIf="regresiveCount>0">
       <span *ngIf="showCounter">{{regresiveCount}}</span>
     </div>
@@ -76,6 +76,7 @@
           <div>Duration: {{ formatSecondsToMinutes(duration) }}m</div> -->
           <ion-item *ngIf="!deleteElement">
             <ion-range
+              mode="ios"
               min="0"
               [max]="duration"
               step="0.1"
@@ -167,6 +168,7 @@
         <ion-item class="animate__animated animate__fadeInRightBig">
           <ion-label>Velocidad</ion-label>
           <ion-range
+            mode="ios"
             min="0.5"
             max="2"
             step="0.1"
@@ -183,6 +185,7 @@
             [(ngModel)]="playbackRate"
             interface="action-sheet"
             (ionChange)="updatePlaybackRate()"
+            mode="ios"
           >
             <ion-select-option *ngFor="let s of speeds" [value]="s"
               >{{s}} x</ion-select-option
@@ -193,6 +196,7 @@
         <!-- <ion-item>
           <ion-label>Volumen</ion-label>
           <ion-range
+          mode="ios"
             min="0"
             max="1"
             step="0.1"
