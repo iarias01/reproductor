@@ -17,6 +17,10 @@
   //border: solid 1px red;
 }
 
+h1 {
+  margin: 10px 0;
+}
+
 .mobile {
   width: 100%;
   min-height: 100vh;
@@ -25,14 +29,14 @@
   padding: 40px 10px 40px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   overflow-y: auto;
   scrollbar-width: 0;
 }
 .inputfile {
   width: 90%;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .time {

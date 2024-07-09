@@ -189,11 +189,11 @@ export class HomePage implements OnInit {
   }
 
   startDecrementing() {
-    this.regresiveCount = 6;
+    this.regresiveCount = 5;
     this.showCounter = true;
     setTimeout(() => {
       this.showCounter = false;
-    });
+    }, 400);
     const intervalId = window.setInterval(() => {
       this.regresiveCount--;
       this.updateCounter();
