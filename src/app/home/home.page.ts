@@ -64,6 +64,17 @@ export class HomePage implements OnInit {
     });
   }
 
+  setLoop() {
+    if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
+      this.audioPlayerRef.nativeElement.addEventListener('ended', () => {
+        if (this.loop) {
+          this.audioPlayerRef.nativeElement.currentTime = 0;
+          this.audioPlayerRef.nativeElement.play();
+        }
+      });
+    }
+  }
+
   generarArray(): number[] {
     const array: number[] = [];
     for (let i = 0.5; i <= 2.01; i += 0.01) {
@@ -140,6 +151,7 @@ export class HomePage implements OnInit {
       this.disconnect(this.audioURL);
       //this.audioPlayerRef.nativeElement.src = this.audioURL;
       //this.audioPlayerRef.nativeElement.load();
+      this.setLoop();
     } else {
       console.error('Audio player element not found');
     }
@@ -253,7 +265,6 @@ export class HomePage implements OnInit {
   }
 
   updateVolume() {
-    console.log('this.volume', this.volume);
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
       this.audioPlayerRef.nativeElement.volume = this.volume;
       //localStorage.setItem('volume', this.volume.toString());
