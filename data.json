@@ -1,0 +1,222 @@
+Endpoints
+Usuarios
+1.
+Registro de usuario
+2.
+1.Método: POST
+2.Endpoint: /register
+3.Descripción: Registra un nuevo usuario. Se requiere el correo y la contraseña. Luego, se enviará un enlace de verificación por correo.
+4.Body:
+5.
+json
+6.
+7.
+Copiar código
+8.
+9.
+{
+  "email": "string",
+  "password": "string"}
+10.
+11.
+3.
+Validar cuenta
+4.
+1.Método: GET
+2.Endpoint: /verify/{token}
+3.Descripción: Valida la cuenta del usuario utilizando el token enviado por correo.
+4.Params:
+1.token: Token de verificación.
+5.
+Recuperar contraseña
+6.
+1.Método: POST
+2.Endpoint: /forgot-password
+3.Descripción: Envia un enlace para recuperar la contraseña al correo del usuario.
+4.Body:
+5.
+json
+6.
+7.
+Copiar código
+8.
+9.
+{
+  "email": "string"}
+10.
+11.
+7.
+Iniciar sesión
+8.
+1.Método: POST
+2.Endpoint: /login
+3.Descripción: Inicia sesión con el correo y la contraseña.
+4.Body:
+5.
+json
+6.
+7.
+Copiar código
+8.
+9.
+{
+  "email": "string",
+  "password": "string"}
+10.
+11.
+9.
+Cerrar sesión
+10.
+1.Método: POST
+2.Endpoint: /logout
+3.Descripción: Cierra la sesión del usuario.
+4.Headers:
+1.Authorization: Token de autenticación del usuario.
+11.
+Borrar cuenta
+12.
+1.Método: DELETE
+2.Endpoint: /delete-account
+3.Descripción: Borra la cuenta del usuario.
+4.Headers:
+1.Authorization: Token de autenticación del usuario.
+13.
+Editar datos del perfil
+14.
+1.Método: PUT
+2.Endpoint: /edit-profile
+3.Descripción: Edita los datos del perfil del usuario.
+4.Headers:
+1.Authorization: Token de autenticación del usuario.
+5.Body:
+6.
+json
+7.
+8.
+Copiar código
+9.
+10.
+{
+  "nickname": "string",
+  "first_name": "string",
+  "last_name": "string",
+  "birthday": "string",
+  "cellphone": "string"}
+11.
+12.
+Eventos
+1.
+Crear evento
+2.
+1.Método: POST
+2.Endpoint: /events
+3.Descripción: Crea un nuevo evento.
+4.Headers:
+1.Authorization: Token de autenticación del usuario.
+5.Body:
+6.
+json
+7.
+8.
+Copiar código
+9.
+10.
+{
+  "name": "string",
+  "description": "string",
+  "type": "EEventType",
+  "imageEvent": "string",
+  "siteImages": ["string"],
+  "peopleCapacity": "number",
+  "owner": "string",
+  "organizer": "string",
+  "date": {
+    "day": "string",
+    "startTime": "string",
+    "endTime": "string",
+    "lifespan": "ELifespan",
+    "expirationDate": "string"
+  },
+  "sale": {
+    "at_door": "number",
+    "anticipated": "number"
+  },
+  "tickets": {
+    "quantity": "number",
+    "available": "number"
+  },
+  "address": {
+    "country": "string",
+    "city": "string",
+    "street": "string",
+    "note": "string",
+    "location": {
+      "link": "string",
+      "position": { "lat": "number", "lng": "number" },
+      "address": "string"
+    }
+  },
+  "contact": {
+    "mail": "string",
+    "phone": "string",
+    "whatsapp": "string",
+    "instagram": "string"
+  },
+  "visits": "number"}
+11.
+12.
+3.
+Obtener evento
+4.
+1.Método: GET
+2.Endpoint: /events/{eventId}
+3.Descripción: Obtiene la información de un evento específico.
+4.Params:
+1.eventId: ID del evento.
+5.
+Actualizar evento
+6.
+1.Método: PUT
+2.Endpoint: /events/{eventId}
+3.Descripción: Actualiza la información de un evento.
+4.Headers:
+1.Authorization: Token de autenticación del usuario.
+5.Params:
+1.eventId: ID del evento.
+6.Body: Igual al de creación de evento.
+7.
+Borrar evento
+8.
+1.Método: DELETE
+2.Endpoint: /events/{eventId}
+3.Descripción: Borra un evento.
+4.Headers:
+1.Authorization: Token de autenticación del usuario.
+5.Params:
+1.eventId: ID del evento.
+9.
+Incrementar contador de vistas
+10.
+1.Método: POST
+2.Endpoint: /events/{eventId}/increment-views
+3.Descripción: Incrementa el contador de vistas de un evento.
+4.Params:
+1.eventId: ID del evento.
+11.
+Filtrar eventos
+12.
+1.Método: GET
+2.Endpoint: /events
+3.Descripción: Filtra los eventos por nombre, país, ciudad, tipo y disponibilidad de tickets.
+4.Query Params:
+1.name: string (opcional)
+2.country: string (opcional)
+3.city: string (opcional)
+4.type: EEventType (opcional)
+5.availableTickets: boolean (opcional)
+13.
+Obtener lista de ciudades y países
+14.
+1.Método: GET
+2.Endpoint: /events/locations
+3.Descripción: Obtiene una lista de todas las ciudades y países de los eventos registrados sin duplicados.

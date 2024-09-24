@@ -25,6 +25,7 @@ export class HomePage implements OnInit {
   selectedSong = '';
   deleteElement = false;
   withDelay = false;
+  loop = false;
 
   inputVar: any = null;
 
@@ -65,7 +66,7 @@ export class HomePage implements OnInit {
 
   generarArray(): number[] {
     const array: number[] = [];
-    for (let i = 0.8; i <= 1.25; i += 0.01) {
+    for (let i = 0.5; i <= 2.01; i += 0.01) {
       array.push(Number(i.toFixed(2)));
     }
     return array;
@@ -81,6 +82,14 @@ export class HomePage implements OnInit {
 
   loadFilesCoreo() {
     const coreo = {
+      name: 'Salsa - IMPETU al 100.wav',
+      url: './assets/musica/Salsa - IMPETU al 100.wav',
+    };
+    const coreo95 = {
+      name: 'Salsa - IMPETU al 95.mp3',
+      url: './assets/musica/Salsa - IMPETU al 95.mp3',
+    };
+    const coreo1 = {
       name: 'Cris Gomez --COREO-- Me Negó.mp3',
       url: './assets/musica/Cris Gomez --COREO-- Me Negó.mp3',
     };
@@ -89,7 +98,7 @@ export class HomePage implements OnInit {
       url: './assets/musica/Calle 13 - Suave.mp3',
     };
 
-    this.files = [coreo, calel13];
+    this.files = [coreo, coreo95];
     //this.selectFile(this.files[0]);
     //this.selectedSong = this.files[0].url;
   }
@@ -244,6 +253,7 @@ export class HomePage implements OnInit {
   }
 
   updateVolume() {
+    console.log('this.volume', this.volume);
     if (this.audioPlayerRef && this.audioPlayerRef.nativeElement) {
       this.audioPlayerRef.nativeElement.volume = this.volume;
       //localStorage.setItem('volume', this.volume.toString());

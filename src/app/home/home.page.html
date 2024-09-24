@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true">
-  <app-stars-efects [changeVelocity]="playbackRate"></app-stars-efects>
+  <!-- <app-stars-efects [changeVelocity]="playbackRate"></app-stars-efects> -->
   <app-background image="1"></app-background>
   <app-music-bar
     class="music"
@@ -151,22 +151,38 @@
             ></ion-input>
             <span>s</span>
           </ion-item> -->
-          <ion-item>
-            <ion-toggle
-              color="danger"
-              [enableOnOffLabels]="true"
-              [(ngModel)]="withDelay"
-              mode="md"
-              >Con delay 5s</ion-toggle
-            >
-          </ion-item>
+          <ion-toggle
+            color="danger"
+            [enableOnOffLabels]="true"
+            [(ngModel)]="withDelay"
+            mode="md"
+            >Con delay 5s</ion-toggle
+          >
+          <ion-toggle
+            color="danger"
+            [enableOnOffLabels]="true"
+            [(ngModel)]="loop"
+            mode="md"
+            >Loop</ion-toggle
+          >
         </div>
 
-        <h2 class="animate__animated animate__flipInX">
-          Velocidad: <b>{{playbackRate}} x</b>
+        <h2 class="speed-container animate__animated animate__flipInX">
+          Velocidad:
+          <b>
+            <ion-select
+              [(ngModel)]="playbackRate"
+              interface="action-sheet"
+              (ionChange)="updatePlaybackRate()"
+              mode="ios"
+            >
+              <ion-select-option *ngFor="let s of speeds" [value]="s"
+                >{{s}} x</ion-select-option
+              >
+            </ion-select>
+          </b>
         </h2>
         <ion-item class="animate__animated animate__fadeInRightBig">
-          <ion-label>Velocidad</ion-label>
           <ion-range
             mode="ios"
             min="0.5"
@@ -179,26 +195,13 @@
             <ion-label slot="end">2x</ion-label>
           </ion-range>
         </ion-item>
-        <ion-item class="animate__animated animate__fadeInLeftBig">
-          <ion-label>Velocidad</ion-label>
-          <ion-select
-            [(ngModel)]="playbackRate"
-            interface="action-sheet"
-            (ionChange)="updatePlaybackRate()"
-            mode="ios"
-          >
-            <ion-select-option *ngFor="let s of speeds" [value]="s"
-              >{{s}} x</ion-select-option
-            >
-          </ion-select>
-        </ion-item>
 
         <ion-item>
           <ion-label>Volumen</ion-label>
           <ion-range
             mode="ios"
             min="0"
-            max="2"
+            max="1"
             step="0.2"
             [(ngModel)]="volume"
             (ionChange)="updateVolume()"
