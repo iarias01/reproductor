@@ -94,24 +94,14 @@ export class HomePage implements OnInit {
   loadFilesCoreo() {
     const coreo = {
       name: 'Salsa - IMPETU al 100.wav',
-      url: './assets/musica/Salsa - IMPETU al 100.wav',
+      url: './assets/musica/impetu_100_normalizada.wav',
     };
     const coreo95 = {
       name: 'Salsa - IMPETU al 95.mp3',
-      url: './assets/musica/Salsa - IMPETU al 95.mp3',
-    };
-    const coreo1 = {
-      name: 'Cris Gomez --COREO-- Me Negó.mp3',
-      url: './assets/musica/Cris Gomez --COREO-- Me Negó.mp3',
-    };
-    const calel13 = {
-      name: 'Calle 13 - Suave.mp3',
-      url: './assets/musica/Calle 13 - Suave.mp3',
+      url: './assets/musica/impetu_95_normalizada.wav',
     };
 
     this.files = [coreo, coreo95];
-    //this.selectFile(this.files[0]);
-    //this.selectedSong = this.files[0].url;
   }
 
   saveFilesToLocalStorage() {
@@ -335,4 +325,48 @@ export class HomePage implements OnInit {
   get getValidateExisteFiles() {
     return this.inputVar || this.files.length > 0;
   }
+
+  exportAudio = async () => {
+    if (!this.audioPlayerRef || !this.audioPlayerRef.nativeElement) {
+      console.error('Audio player element not found');
+      return;
+    }
+
+    const audioContext = new AudioContext();
+    const originalAudioElement = this.audioPlayerRef.nativeElement;
+
+    // Crear un nuevo elemento de audio
+    const newAudioElement = new Audio(originalAudioElement.src);
+    newAudioElement.playbackRate = this.playbackRate;
+
+    const source = audioContext.createMediaElementSource(newAudioElement);
+    const destination = audioContext.createMediaStreamDestination();
+    source.connect(destination);
+
+    const recorder = new MediaRecorder(destination.stream);
+    const chunks: Blob[] = [];
+
+    recorder.ondataavailable = (event) => {
+      chunks.push(event.data);
+    };
+
+    recorder.onstop = () => {
+      const blob = new Blob(chunks, { type: 'audio/wav' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      a.download = 'modified_audio.wav';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    };
+
+    recorder.start();
+    newAudioElement.play();
+
+    setTimeout(() => {
+      recorder.stop();
+    }, (newAudioElement.duration * 1000) / this.playbackRate);
+  };
 }
