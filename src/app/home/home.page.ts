@@ -376,48 +376,24 @@ export class HomePage implements OnInit {
   get getValidateExisteFiles() {
     return this.inputVar || this.files.length > 0;
   }
+  exportAudio() {
+    if (!this.selectedFile) return;
 
-  exportAudio = async () => {
-    if (!this.audioPlayerRef || !this.audioPlayerRef.nativeElement) {
-      console.error('Audio player element not found');
-      return;
-    }
+    const { url, name } = this.selectedFile;
 
-    const audioContext = new AudioContext();
-    const originalAudioElement = this.audioPlayerRef.nativeElement;
-
-    // Crear un nuevo elemento de audio
-    const newAudioElement = new Audio(originalAudioElement.src);
-    newAudioElement.playbackRate = this.playbackRate;
-
-    const source = audioContext.createMediaElementSource(newAudioElement);
-    const destination = audioContext.createMediaStreamDestination();
-    source.connect(destination);
-
-    const recorder = new MediaRecorder(destination.stream);
-    const chunks: Blob[] = [];
-
-    recorder.ondataavailable = (event) => {
-      chunks.push(event.data);
-    };
-
-    recorder.onstop = () => {
-      const blob = new Blob(chunks, { type: 'audio/wav' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.style.display = 'none';
-      a.href = url;
-      a.download = 'modified_audio.wav';
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-    };
-
-    recorder.start();
-    newAudioElement.play();
-
-    setTimeout(() => {
-      recorder.stop();
-    }, (newAudioElement.duration * 1000) / this.playbackRate);
-  };
+    // Si el archivo viene de assets o URL local
+    fetch(url)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const blobUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = name; // Mantiene nombre y extensión
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(blobUrl);
+      })
+      .catch((err) => console.error('Error exportando el audio:', err));
+  }
 }

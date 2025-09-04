@@ -213,7 +213,9 @@
         </ion-item>
       </div>
     </div>
-    <ion-button (click)="exportAudio()">exportar</ion-button>
+    <ion-button (click)="exportAudio()" *ngIf="selectedFile"
+      >exportar</ion-button
+    >
     <!-- <app-button
       text="RESET APP"
       type="solid"
