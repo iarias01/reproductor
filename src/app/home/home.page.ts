@@ -92,16 +92,67 @@ export class HomePage implements OnInit {
   }
 
   loadFilesCoreo() {
-    const coreo = {
-      name: 'Salsa - IMPETU al 100.wav',
-      url: './assets/musica/impetu_100_normalizada.wav',
+    const grupo100Mp3 = {
+      name: 'Grupo Ímpetu 100% MP3.mp3',
+      url: './assets/musica/grupo_impetu_100_MP3.mp3',
     };
-    const coreo95 = {
-      name: 'Salsa - IMPETU al 95.mp3',
-      url: './assets/musica/impetu_95_normalizada.wav',
+    const grupo95Mp3 = {
+      name: 'Grupo Ímpetu 95% MP3.mp3',
+      url: './assets/musica/grupo_impetu_95_MP3.mp3',
+    };
+    const grupo100Wav = {
+      name: 'Grupo Ímpetu 100% WAV.wav',
+      url: './assets/musica/grupo_impetu_100_WAV.wav',
+    };
+    const grupo95Wav = {
+      name: 'Grupo Ímpetu 95% WAV.wav',
+      url: './assets/musica/grupo_impetu_95_WAV.wav',
+    };
+    const nicoDayWav = {
+      name: 'Nico y Day WAV.wav',
+      url: './assets/musica/nico_day_WAV.wav',
+    };
+    const nicoDayMp3 = {
+      name: 'Nico y Day MP3.mp3',
+      url: './assets/musica/nico_y_day_MP3.mp3',
+    };
+    const pabloAgusMp3 = {
+      name: 'Pablo y Agus MP3.mp3',
+      url: './assets/musica/pablo_y_agus_MP3.mp3',
+    };
+    const pabloAgusWav = {
+      name: 'Pablo y Agus WAV.wav',
+      url: './assets/musica/pablo_y_agus_WAV.wav',
+    };
+    const shineMixtoMp3 = {
+      name: 'Shine Mixto MP3.mp3',
+      url: './assets/musica/shine_mixto_MP3.mp3',
+    };
+    const shineMixtoWav = {
+      name: 'Shine Mixto WAV.wav',
+      url: './assets/musica/shine_mixto_WAV.wav',
+    };
+    const solistaPabloMp3 = {
+      name: 'Solista Pablo MP3.mp3',
+      url: './assets/musica/solista_pablo_MP3.mp3',
+    };
+    const solistaPabloWav = {
+      name: 'Solista Pablo WAV.wav',
+      url: './assets/musica/solista_pablo_WAV.wav',
     };
 
-    this.files = [coreo, coreo95];
+    this.files = [
+      grupo95Mp3,
+      nicoDayMp3,
+      pabloAgusMp3,
+      shineMixtoMp3,
+      solistaPabloMp3,
+      grupo95Wav,
+      nicoDayWav,
+      pabloAgusWav,
+      shineMixtoWav,
+      solistaPabloWav,
+    ];
   }
 
   saveFilesToLocalStorage() {
